@@ -49,6 +49,13 @@
             text-decoration: none;
         }
 
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
         /* Hero Section */
         .hero {
             padding: 6rem 2rem;
@@ -79,6 +86,18 @@
             gap: 2rem;
         }
 
+        .tool-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-link:hover .tool-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
         .tool-card {
             background: white;
             border-radius: 12px;
@@ -86,10 +105,6 @@
             text-align: center;
             transition: transform 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
         }
 
         .tool-icon {
@@ -140,17 +155,6 @@
             gap: 2rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         /* Buttons */
         .btn {
             padding: 0.8rem 2rem;
@@ -159,6 +163,8 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
         }
 
         .btn-primary {
@@ -171,11 +177,19 @@
             box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
         }
 
-        /* Ad Sections */
-        .ad-section {
-            text-align: center;
-            padding: 2rem;
-            margin: 2rem 0;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none; /* Hide nav links on mobile (add hamburger menu if needed) */
+            }
         }
     </style>
 </head>
@@ -185,9 +199,9 @@
         <nav class="nav-container">
             <a href="#" class="logo">ColorizePro</a>
             <div class="nav-links">
-                <a href="#" class="text-white">Tools</a>
-                <a href="#" class="text-white">Features</a>
-                <a href="#" class="text-white">Pricing</a>
+                <a href="#tools">Tools</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
             </div>
         </nav>
     </header>
@@ -196,37 +210,36 @@
     <section class="hero">
         <h1>Transform Black & White Photos to Color with AI</h1>
         <p>Bring your historical memories to life with our powerful AI-powered colorization tools</p>
-        <button class="btn btn-primary">Start Colorizing Now</button>
+        <a href="/colorize" class="btn btn-primary">Start Colorizing Now</a>
     </section>
 
-    <!-- Ad Section -->
-    <div class="ad-section">
-        <!-- Google AdSense Code Here -->
-    </div>
-
     <!-- Tools Grid -->
-    <section class="tools-grid">
-      <a href="/tool/img-colorize.html" class="tool-link">
-  <div class="tool-card">
-    <i class="fas fa-wand-magic-sparkles tool-icon"></i>
-    <h3>Basic Colorizer</h3>
-    <p>Automatically add colors to your black & white photos</p>
-  </div>
-      </a>
-        <div class="tool-card">
-            <i class="fas fa-sliders tool-icon"></i>
-            <h3>Advanced Editor</h3>
-            <p>Manual color adjustment tools with AI assistance</p>
-        </div>
-        <div class="tool-card">
-            <i class="fas fa-batch-symbols tool-icon"></i>
-            <h3>Batch Processing</h3>
-            <p>Colorize multiple images at once</p>
-        </div>
+    <section id="tools" class="tools-grid">
+        <a href="/basic-colorizer" class="tool-link">
+            <div class="tool-card">
+                <i class="fas fa-wand-magic-sparkles tool-icon"></i>
+                <h3>Basic Colorizer</h3>
+                <p>Automatically add colors to your black & white photos</p>
+            </div>
+        </a>
+        <a href="/advanced-editor" class="tool-link">
+            <div class="tool-card">
+                <i class="fas fa-sliders tool-icon"></i>
+                <h3>Advanced Editor</h3>
+                <p>Manual color adjustment tools with AI assistance</p>
+            </div>
+        </a>
+        <a href="/batch-processing" class="tool-link">
+            <div class="tool-card">
+                <i class="fas fa-batch-symbols tool-icon"></i>
+                <h3>Batch Processing</h3>
+                <p>Colorize multiple images at once</p>
+            </div>
+        </a>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
+    <section id="features" class="features">
         <div class="feature-grid">
             <div class="feature-card">
                 <h3>AI-Powered Technology</h3>
@@ -247,7 +260,7 @@
     <section class="cta-section">
         <h2>Start Your Free Trial Today</h2>
         <p>Get 10 free colorizations when you sign up</p>
-        <button class="btn btn-primary">Get Started</button>
+        <a href="/signup" class="btn btn-primary">Get Started</a>
     </section>
 
     <!-- Footer -->
@@ -260,17 +273,17 @@
             <div>
                 <h4>Tools</h4>
                 <ul>
-                    <li><a href="#">Photo Colorizer</a></li>
-                    <li><a href="#">Batch Processor</a></li>
-                    <li><a href="#">AI Enhancer</a></li>
+                    <li><a href="/basic-colorizer">Photo Colorizer</a></li>
+                    <li><a href="/advanced-editor">Batch Processor</a></li>
+                    <li><a href="/batch-processing">AI Enhancer</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="/help">Help Center</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/faq">FAQ</a></li>
                 </ul>
             </div>
         </div>

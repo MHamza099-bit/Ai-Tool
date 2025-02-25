@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tool to colorize black and white photos instantly. No watermarks, fully responsive, and completely free. Enhance your historical photos with AI-powered colorization.">
+    <meta name="keywords" content="colorize photos, black and white to color, free photo editor, online photo colorization, AI photo enhancement">
+    <title>Free Online Photo Colorization Tool | Instant B&W to Color Converter</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #6C5CE7;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: white;
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Main Editor Section */
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Card Styles */
+        .image-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .upload-section {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .upload-section input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .upload-label i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* Controls Section */
+        .controls {
+            margin-top: 1.5rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            outline: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Button Styles */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #357ABD;
+        }
+
+        .btn-secondary {
+            background: #6C5CE7;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5543D1;
+        }
+
+        /* Ad Sections */
+        .ad-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Preview Canvas */
+        #imageCanvas {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 1rem;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+        }
+
+        /* Loading State */
+        .loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .upload-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1>AI Photo Colorizer</h1>
+            <p>Transform Black & White Photos to Color Instantly</p>
+        </div>
+    </header>
+
+    <!-- Ad Section -->
+    <div class="container">
+        <div class="ad-section">
+            <!-- AdSense Code Here -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Main Editor -->
+    <div class="container">
+        <div class="editor-container">
+            <!-- Upload Section -->
+            <div class="image-card">
+                <div class="upload-section">
+                    <input type="file" id="imageUpload" accept="image/*">
+                    <div class="upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Click to upload or drag and drop<br>
+                        <small>Supported formats: JPEG, PNG (Max 5MB)</small>
+                    </div>
+                </div>
+                <canvas id="imageCanvas"></canvas>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="image-card">
+                <div class="controls">
+                    <div class="control-group">
+                        <div class="range-label">
+                            <span>Color Intensity</span>
+                            <span id="colorValue">50%</span>
+                        </div>
+                        <input type="range" class="range-slider" id="colorLevel" 
+                               min="0" max="100" value="50">
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="processImage()">
+                            <i class="fas fa-magic"></i> Colorize Now
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadImage()">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+
+                    <div class="ad-section mobile-ad">
+                        <!-- Responsive Ad Unit -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                             data-ad-slot="XXXXXXXXXX"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Ad Section -->
+    <div class="container">
+        <div class="ad-section">
+            <!-- AdSense Code Here -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
+    <script>
+        // Image Processing Logic
+        const canvas = document.getElementById('imageCanvas');
+        const ctx = canvas.getContext('2d');
+        let uploadedImage = null;
+
+        // Update color value display
+        document.getElementById('colorLevel').addEventListener('input', function(e) {
+            document.getElementById('colorValue').textContent = `${e.target.value}%`;
+        });
+
+        // File Upload Handling
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                uploadedImage = new Image();
+                uploadedImage.onload = function() {
+                    canvas.width = Math.min(uploadedImage.width, 800);
+                    canvas.height = (canvas.width / uploadedImage.width) * uploadedImage.height;
+                    ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
+                };
+                uploadedImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Drag and Drop Functionality
+        const uploadSection = document.querySelector('.upload-section');
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.style.borderColor = var(--primary-color);
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.style.borderColor = '#e0e0e0';
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.style.borderColor = '#e0e0e0';
+            const file = e.dataTransfer.files[0];
+            if (file) document.getElementById('imageUpload').files = e.dataTransfer.files;
+        });
+
+        // Processing Function
+        function processImage() {
+            if (!uploadedImage) {
+                showToast('Please upload an image first!', 'error');
+                return;
+            }
+
+            const colorLevel = document.getElementById('colorLevel').value / 100;
+            const processBtn = document.querySelector('.btn-primary');
+            
+            // Simulate processing
+            processBtn.classList.add('loading');
+            setTimeout(() => {
+                ctx.filter = `saturate(${colorLevel}) sepia(${1 - colorLevel})`;
+                ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height);
+                processBtn.classList.remove('loading');
+                showToast('Colorization complete!', 'success');
+            }, 1500);
+        }
+
+        // Download Function
+        function downloadImage() {
+            if (!canvas.toDataURL()) {
+                showToast('No image to download!', 'error');
+                return;
+            }
+            const link = document.createElement('a');
+            link.download = `colorized-${Date.now()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Toast Notification
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // AdSense Initialization
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>
